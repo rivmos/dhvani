@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSpring, animated } from 'react-spring'
 import { motion } from 'framer-motion';
-import './buttonUI.css'
+import './style.css'
 import Audio from 'ts-audio';
 
 const clickedButtonUI = {
@@ -13,6 +14,7 @@ const notClickedButtonUI = {
 }
 
 const SoundCard = ({ song, outerDiv }) => {
+    const props = useSpring({ to: { opacity: 1 }, from: { opacity: 0 } })
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [clicked, setClicked] = useState(false)
@@ -121,7 +123,9 @@ const SoundCard = ({ song, outerDiv }) => {
             <audio id='audio' ref={audio} preload="metadata">
                 <source src={song.url}></source>
             </audio>
+            <animated.div style={props}>
             <button onClick={() => { togglePlayPause(); setClicked(!clicked); }} className="toggle-play play" style={clicked ? clickedButtonUI : notClickedButtonUI}>{song.name}</button>
+            </animated.div>        
         </motion.div>
     );
 }
